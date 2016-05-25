@@ -161,11 +161,20 @@ def command(dico, comm):
         if(len(list)==2):
             if dico['user'] in listPlayer and listPlayer[dico['user']]['actif']:
                 user2ID = listPlayer[dico['user']]['adversaire']
+                user2Name = getUserName(user2ID)
                 if(listPlayer[user2ID]['personnage'] == list[1].upper()):
-                    sendMessage(dico['channel'], "Bravo! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! A toi de choisir un personnage.")
-                    sendMessage(getChannel(user2ID), user1Name+" a trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! C'est à son tour de choisir un personnage.")
-                    listPlayer[dico['user']]['poseQuestion'] = False
-                    listPlayer[user2ID]['poseQuestion'] = True
+                    if(listPlayer[user2ID]['personnage'] == None):
+                        sendMessage(dico['channel'], "Bravo! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! A toi de choisir un personnage.")
+                        sendMessage(getChannel(user2ID), user1Name+" a trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! C'est à son tour de choisir un personnage.")
+                        listPlayer[dico['user']]['poseQuestion'] = False
+                        listPlayer[user2ID]['poseQuestion'] = True
+                    else:
+                        if(listPlayer[dico['user']]['nbTours'] > listPlayer[user2ID]['nbTours']):
+                            sendMessage(dico['channel'], "Tu es 2ème! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours, alors que "+user2Name+" a trouvé en "+str(listPlayer[user2ID]['nbTours'])+" tours")
+                            sendMessage(getChannel(user2ID), "Tu as gagné! Tu as trouvé le bon personnage en "+str(listPlayer[user2ID]['nbTours'])+" tours, alors que "+user2Name+" a trouvé en "+str(listPlayer[dico['user']]['nbTours'])+" tours")
+
+
+
                 else:
                     sendMessage(dico['channel'], "Ce n'est pas le bon personnage!")
                     sendMessage(getChannel(user2ID), user1Name+" s'est trompé de personnage, il pensait à "+list[1])
