@@ -10,7 +10,7 @@ import websockets
 from slackclient import SlackClient
 
 DEBUG = True
-TOKEN = "xoxb-38179881843-PQJ6g61KZIzUVDjBPrTjE3Ez"
+TOKEN = "xoxb-38179881843-kxZI3VGBSZA9N61nCP0OkXcz"
 RUNNING = True
 
 sc = SlackClient(TOKEN)
@@ -18,6 +18,7 @@ print(sc.api_call("api.test"))
 userList = sc.api_call("users.list")
 listPlayer={}
 listAdmin=('julien.baumgart','reziziflag')
+botName = "hearkinator"
 
 async def producer():
     """Produce a ping message every 10 seconds."""
@@ -34,10 +35,7 @@ async def consumer(message):
         #    print(dico[key])
     if('channel' in dico and 'text' in dico and 'type' in dico and dico['type'] == 'message' and 'user' in dico):
         #sendMessage(dico['channel'], dico['text'])
-        if(dico['text'][:9] == "akinator "):
-            command(dico, dico['text'][9:])
-        elif(dico['user'] in listPlayer and dico['channel'] == getChannel(dico['user'])):
-            askOrAnswer(dico)
+        command(dico, dico['text'])
 
 async def bot(token):
     """Create a bot that joins Slack."""
@@ -80,7 +78,7 @@ def askOrAnswer(dico):
     if(dico['text'].upper() == "OUI" or dico['text'].upper() == "NON"):
         if(listPlayer[dico['user']]['poseQuestion'] == False and listPlayer[dico['user']]['actif'] == True):
             user2ID = listPlayer[dico['user']]['adversaire']
-            sendMessage(dico['channel'], getUserName(user2ID)+" va poser une autre question.")
+            sendMessage(dico['channel'], getUserName(user2ID)+" réfléchit :thinking_face:")
             sendMessage(getChannel(user2ID), getUserName(dico['user'])+" a répondu "+dico['text'])
             listPlayer[dico['user']]['actif'] = False
             listPlayer[user2ID]['actif'] = True
@@ -88,13 +86,15 @@ def askOrAnswer(dico):
         if (listPlayer[dico['user']]['poseQuestion']):
             user2ID = listPlayer[dico['user']]['adversaire']
             if(listPlayer[dico['user']]['actif']):
-                sendMessage(dico['channel'], getUserName(user2ID)+" va répondre à ta question.")
+                sendMessage(dico['channel'], getUserName(user2ID)+" va répondre à ta question :face_with_rolling_eyes:")
                 sendMessage(getChannel(user2ID), getUserName(dico['user'])+" demande: "+dico['text'])
                 increaseTurn(dico['user'])
                 listPlayer[dico['user']]['actif'] = False
                 listPlayer[user2ID]['actif'] = True
             else:
                 sendMessage(dico['channel'], "Attends que "+getUserName(user2ID)+" réponde avant de poser une autre question.")
+
+
 
 def command(dico, comm):
     """Execute a command for Akinator"""
@@ -107,20 +107,20 @@ def command(dico, comm):
             user2ID = getUserID(list[1])
             if(user2ID != None):
                     if(list[1] == user1Name):
-                        sendMessage(dico['channel'], "Tu ne peux pas jouer avec toi-même, même si tu n'as pas d'ami.")
-                    elif(list[1] == "juliencharles"):
-                        sendMessage(dico['channel'], "Moi? Ok... Tu penses à "+list[2]+", j'ai gagné.")
+                        sendMessage(dico['channel'], "Tu ne peux pas jouer avec toi-même, même si tu n'as pas d'ami :joy:")
+                    elif(list[1] == botName):
+                        sendMessage(dico['channel'], "Moi? Ok... Tu penses à "+list[2]+", j'ai gagné. :wink:")
                     else:
                         if(addGame(dico['user'], user2ID, list[2].upper())):
-                            sendMessage(dico['channel'], "Tu commences une partie avec "+list[1]+", tu penses à "+list[2]+".")
-                            sendMessage(getChannel(user2ID), "Bonjour "+list[1]+", "+user1Name+" veut jouer avec toi, pose-lui des questions pour savoir à quel personnage il pense!")
+                            sendMessage(dico['channel'], "Tu commences une partie avec "+list[1]+":sunglasses:, tu penses à "+list[2]+".")
+                            sendMessage(getChannel(user2ID), "Bonjour "+list[1]+" :sunglasses:, "+user1Name+" veut jouer avec toi, pose-lui des questions pour savoir à quel personnage il pense! ")
                         else:
                             sendMessage(dico['channel'], "Tu ne peux pas jouer avec "+list[1]+" maintenant, l'un de vous deux est déjà en partie avec quelqu'un.")
 
             else:
                 sendMessage(dico['channel'], "Utilisateur inconnu: "+list[1])
         else:
-            sendMessage(dico['channel'], "Erreur: nombre d'arguments invalide (akinator start [joueur] [personnage])")
+            sendMessage(dico['channel'], "Format: akinator start [joueur] [personnage]")
 
 
     elif(list[0] == "personnage"):
@@ -143,7 +143,7 @@ def command(dico, comm):
             else:
                 sendMessage(dico['channel'], "Ce n'est pas le bon moment pour penser à un personnage.")
         else:
-            sendMessage(dico['channel'], "Erreur: nombre d'arguments invalide (akinator personnage) ou (akinator personnage[nom])")
+            sendMessage(dico['channel'], "Format: (akinator personnage) ou (akinator personnage[nom])")
 
 
     elif(list[0] == "stop"):
@@ -161,11 +161,27 @@ def command(dico, comm):
         if(len(list)==2):
             if dico['user'] in listPlayer and listPlayer[dico['user']]['actif']:
                 user2ID = listPlayer[dico['user']]['adversaire']
+                user2Name = getUserName(user2ID)
                 if(listPlayer[user2ID]['personnage'] == list[1].upper()):
-                    sendMessage(dico['channel'], "Bravo! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! A toi de choisir un personnage.")
-                    sendMessage(getChannel(user2ID), user1Name+" a trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! C'est à son tour de choisir un personnage.")
-                    listPlayer[dico['user']]['poseQuestion'] = False
-                    listPlayer[user2ID]['poseQuestion'] = True
+                    if(listPlayer[dico['user']]['personnage'] == None):
+                        sendMessage(dico['channel'], "Bravo :clap: :clap: :clap: Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! A toi de choisir un personnage.")
+                        sendMessage(getChannel(user2ID), user1Name+" a trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! C'est à son tour de choisir un personnage.")
+                        listPlayer[dico['user']]['poseQuestion'] = False
+                        listPlayer[user2ID]['poseQuestion'] = True
+                    else:
+                        if(listPlayer[dico['user']]['nbTours'] > listPlayer[user2ID]['nbTours']):
+                            sendMessage(dico['channel'], ":-1: Tu es 2ème! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours, alors que "+user2Name+" a trouvé en "+str(listPlayer[user2ID]['nbTours'])+" tours")
+                            sendMessage(getChannel(user2ID), ":crown: Tu as gagné! Tu as trouvé le bon personnage en "+str(listPlayer[user2ID]['nbTours'])+" tours, alors que "+getUserName(dico['user'])+" a trouvé en "+str(listPlayer[dico['user']]['nbTours'])+" tours")
+
+                        elif(listPlayer[dico['user']]['nbTours'] < listPlayer[user2ID]['nbTours']):
+                            sendMessage(getChannel(user2ID), ":-1: Tu es 2ème! Tu as trouvé le bon personnage en "+str(listPlayer[user2ID]['nbTours'])+" tours, alors que "+getUserName(dico['user'])+" a trouvé en "+str(listPlayer[dico['user']]['nbTours'])+" tours")
+                            sendMessage(dico['channel'], ":crown: Tu as gagné! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours, alors que "+user2Name+" a trouvé en "+str(listPlayer[user2ID]['nbTours'])+" tours")
+                        else:
+                            sendMessage(dico['channel'], ":facepunch:  Egalité! Vous avez tous les 2 trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours.")
+                            sendMessage(getChannel(user2ID), ":facepunch:  Egalité! Vous avez tous les 2 trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours.")
+
+                        del listPlayer[user2ID]
+                        del listPlayer[dico['user']]
                 else:
                     sendMessage(dico['channel'], "Ce n'est pas le bon personnage!")
                     sendMessage(getChannel(user2ID), user1Name+" s'est trompé de personnage, il pensait à "+list[1])
@@ -179,11 +195,14 @@ def command(dico, comm):
 
     if(list[0] == "shutdown"):
         if getUserName(dico['user']) in listAdmin:
-            sendMessage(dico['channel'], "Je reviendrai...")
+            sendMessage(dico['channel'], "Je reviendrai... :ghost: :ghost: :ghost:")
             stop()
         else:
-            sendMessage(dico['channel'], "Tu ne peux pas m'arrêter car tu es trop faible.")
+            sendMessage(dico['channel'], "Tu ne peux pas m'arrêter car tu es trop faible :smiling_imp:")
 
+
+    elif(dico['user'] in listPlayer and dico['channel'] == getChannel(dico['user'])):
+        askOrAnswer(dico);
 
 
 def getUserID(name):
