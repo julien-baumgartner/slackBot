@@ -24,15 +24,18 @@ le bot indique le meilleur des deux joueur.
 
 
 Installation de HearKinator
-==================
+=============================
 Pour installer Hearkinator, suivre les instructions ci-dessous:
 
 * Créer un dossier (mkdir nom_dossier)
 * Entrer la commande: python -m venv . (Attention un espace entre venv et le point). Cette commande va installer l'environnement virtuel.
-* Entrer la commande: Scripts\activate.bat
-* Entrer la commande suivante dans l'environnement crée: pip install hearkinator. Cette commade installe hearkinator et tous les packages dont il a besoin.
+* Entrer la commande: Scripts\\activate.bat
+* Entrer la commande suivante dans l'environnement crée: pip install hearkinator
+* Entrer la commande: pip install aiohttp
+* Entrer la commande: pip install websockets (Attention n'oubliez par le s car il existe aussi un websocket sans le s)
+* Entrer la commande: pip install slackclient
 
-Si tout se passe bien, on reçoit un message du type "Successfully installed hearkinator-0.2".
+A ce niveau le robot est prèt au lancement.
 
 Où trouver hearkinator après installation
 ==========================================
@@ -44,3 +47,8 @@ Après l'installation du robot, suivre le chemin:
 Lancer le robot
 ==========================================
 
+Toujours dans le repertoire crée, faire:
+
+* set SLACK_TOKEN = <valeur du tocken ici>
+* puis lancer la commande python Lib/site-packages/hearkinator/akinator_bot.py
+* Se connecter à slack et là on trouve le bot hearkinator.
