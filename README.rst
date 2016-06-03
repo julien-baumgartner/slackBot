@@ -63,7 +63,7 @@ Pour lancer une partie voici les instructions:
 * Le bot affiche les différentes actions 
 * Pour répondre on écrit
    réponse nom_personnage  (exemple reponse rambo)
-* Et laisser le bot vous dire si vous avez trouvé ou pas et en plus le nombre de tentative (nombre de questions)
+* Et laisser le bot vous dire si vous avez trouvé ou pas et en plus le nombre de tentatives (nombre de questions)
 
 Améliorations possibles
 =========================
