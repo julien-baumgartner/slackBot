@@ -32,7 +32,7 @@ Pour installer Hearkinator, suivre les instructions ci-dessous:
 * Entrer la commande: Scripts\activate.bat
 * Entrer la commande suivante dans l'environnement crée: pip install hearkinator. Cette commade installe hearkinator et tous les packages dont il a besoin.
 
-Si tout ce passe bien on a un message du type "Successfully installed hearkinator-0.2".
+Si tout se passe bien, on reçoit un message du type "Successfully installed hearkinator-0.2".
 
 Où trouver hearkinator après installation
 ==========================================
