@@ -65,3 +65,9 @@ Pour lancer une partie voici les instructions:
    réponse nom_personnage  (exemple reponse rambo)
 * Et laisser le bot vous dire si vous avez trouvé ou pas et en plus le nombre de tentative (nombre de questions)
 
+Améliorations possibles
+=========================
+
+Le bot répond aux attentes globales mais des améliorations sont possibles par exemple
+simplifier le lancement du jeu; au lieu de saisir start nom_adversaire personnage, ce qui est pénible, une solution serait d'avoir la liste des utilisateurs connectés et par des simples cliques, lancer la partie.
+Créer un système de classement persistant, ce qui permettrait de voir le meilleur challenger. Bref il est possible de donner encore plus d'intélligence à hearkinator.
