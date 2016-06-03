@@ -27,7 +27,11 @@ Installation de HearKinator
 ==================
 Pour installer Hearkinator, suivre les instructions ci-dessous:
 
-* Créer un dossier (mkdir dossier)
-* :ref:`modindex`
-* :ref:`search`
+* Créer un dossier (mkdir nom_dossier)
+* Entrer la commande: python -m venv . (Attention un espace entre venv et le point). Cette commande va installer l'environnement virtuel.
+* Entrer la commande: Scripts\activate.bat
+* Entrer la commande suivante dans l'environnement crée: pip install hearkinator. Cette commade installe hearkinator et tous
+les packages dont il a besoin.
+
+Si tout ce passe bien on a un message du type "Successfully installed hearkinator-0.2".
 
