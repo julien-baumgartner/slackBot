@@ -7,6 +7,8 @@ Documentation pour le bot Hearkinator
 =======================================
 Objectifs du projet
 =======================================
+HearKinator est un robot slack développé avec le langage de programmation Python.
+Le robot est inspiré du célèbre Génie Akinator hhttp://fr.akinator.com/ttp://fr.akinator.com/ mais le mécanisme diffère.
 
 
 Contenu
