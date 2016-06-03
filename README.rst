@@ -7,22 +7,23 @@ Documentation pour le bot Hearkinator
 =======================================
 Objectifs du projet
 =======================================
-HearKinator est un robot slack développé avec le langage de programmation Python.
-Le robot est inspiré du célèbre Génie Akinator hhttp://fr.akinator.com/ttp://fr.akinator.com/ mais le mécanisme diffère.
+Hearkinator est un robot slack développé avec le langage de programmation Python.
+Le robot est inspiré du célèbre Génie Akinator http://fr.akinator.com/ mais le mécanisme diffère.
 
 En effet, Hearkinator se joue à deux. Un joueur (user) cherche un challenger pour une partie. Le but est de trouver le 
 personnage auquel pense l'un des joueur. Le joueur qui lance la partie et qui demande le challenge doit répondre par oui
 ou par non aux question du challenger qui essaie de trouver le personnage. Une fois que le challenger trouve le personnage,
 le nombre de tentative est indiqué par le robot et invite le challenger a lancer une partie à son tour. 
 
-Contenu
+
+
 
 .. toctree::
    :maxdepth: 2
 
 
 
-Indices and tables
+Installation de HearKinator
 ==================
 
 * :ref:`genindex`
