@@ -10,7 +10,7 @@ import websockets
 from slackclient import SlackClient
 
 DEBUG = True
-TOKEN = "xoxb-38179881843-kxZI3VGBSZA9N61nCP0OkXcz"
+TOKEN = "xoxb-"
 RUNNING = True
 
 sc = SlackClient(TOKEN)
