@@ -41,3 +41,6 @@ Après l'installation du robot, suivre le chemin:
    Lib/site-packages/hearkinator/akinator_bot.py
    
 
+Lancer le robot
+==========================================
+
