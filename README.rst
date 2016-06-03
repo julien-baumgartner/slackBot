@@ -25,8 +25,9 @@ le bot indique le meilleur des deux joueur.
 
 Installation de HearKinator
 ==================
+Pour installer Hearkinator, suivre les instructions ci-dessous:
 
-* :ref:`genindex`
+* Créer un dossier (mkdir dossier)
 * :ref:`modindex`
 * :ref:`search`
 
