@@ -11,7 +11,7 @@ import websockets
 from slackclient import SlackClient
 
 DEBUG = True
-TOKEN = os.environ.get("SLACK_TOKEN")
+TOKEN = os.environ.get("SLACK_TOKEN") #dans le venv: set SLACK_TOKEN=...
 RUNNING = True
 
 sc = SlackClient(TOKEN)
@@ -76,7 +76,9 @@ def stop():
     print("Stopping... closing connections.")
 
 def askOrAnswer(dico):
+    """Manage the question or the answer of the player"""
     if(dico['text'].upper() == "OUI" or dico['text'].upper() == "NON"):
+        #Réponse
         if(listPlayer[dico['user']]['poseQuestion'] == False and listPlayer[dico['user']]['actif'] == True):
             user2ID = listPlayer[dico['user']]['adversaire']
             sendMessage(dico['channel'], getUserName(user2ID)+" réfléchit :thinking_face:")
@@ -84,6 +86,7 @@ def askOrAnswer(dico):
             listPlayer[dico['user']]['actif'] = False
             listPlayer[user2ID]['actif'] = True
     else:
+        #Question
         if (listPlayer[dico['user']]['poseQuestion']):
             user2ID = listPlayer[dico['user']]['adversaire']
             if(listPlayer[dico['user']]['actif']):
@@ -102,7 +105,7 @@ def command(dico, comm):
     list = comm.split( )
     user1Name = getUserName(dico['user'])
 
-
+    #Nouvelle partie
     if(list[0] == "start"):
         if(len(list) == 3):
             user2ID = getUserID(list[1])
@@ -124,6 +127,7 @@ def command(dico, comm):
             sendMessage(dico['channel'], "Format: akinator start [joueur] [personnage]")
 
 
+    #Rappel ou choix du personnage
     elif(list[0] == "personnage"):
         if(len(list) == 1):
             if dico['user'] in listPlayer:
@@ -147,6 +151,7 @@ def command(dico, comm):
             sendMessage(dico['channel'], "Format: (akinator personnage) ou (akinator personnage[nom])")
 
 
+    #Arret de la partie
     elif(list[0] == "stop"):
         if dico['user'] in listPlayer:
             user2ID = listPlayer[dico['user']]['adversaire']
@@ -157,18 +162,20 @@ def command(dico, comm):
         else:
             sendMessage(dico['channel'], "Tu ne peux pas quitter la partie, car tu ne joues pas...")
 
-
+    ##Tentative pour trouver le bon personnage
     elif(list[0] == "reponse"):
         if(len(list)==2):
             if dico['user'] in listPlayer and listPlayer[dico['user']]['actif']:
                 user2ID = listPlayer[dico['user']]['adversaire']
                 user2Name = getUserName(user2ID)
                 if(listPlayer[user2ID]['personnage'] == list[1].upper()):
+                    #Demande au joueur 2 de choisir son personnage
                     if(listPlayer[dico['user']]['personnage'] == None):
                         sendMessage(dico['channel'], "Bravo :clap: :clap: :clap: Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! A toi de choisir un personnage.")
                         sendMessage(getChannel(user2ID), user1Name+" a trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours! C'est à son tour de choisir un personnage.")
                         listPlayer[dico['user']]['poseQuestion'] = False
                         listPlayer[user2ID]['poseQuestion'] = True
+                    #Affiche et scores et termine la partie
                     else:
                         if(listPlayer[dico['user']]['nbTours'] > listPlayer[user2ID]['nbTours']):
                             sendMessage(dico['channel'], ":-1: Tu es 2ème! Tu as trouvé le bon personnage en "+str(listPlayer[dico['user']]['nbTours'])+" tours, alors que "+user2Name+" a trouvé en "+str(listPlayer[user2ID]['nbTours'])+" tours")
@@ -193,7 +200,7 @@ def command(dico, comm):
             sendMessage(dico['channel'], "Erreur: nombre d'arguments invalide (akinator reponse [personnage])")
 
 
-
+    #Arrête le bot
     if(list[0] == "shutdown"):
         if getUserName(dico['user']) in listAdmin:
             sendMessage(dico['channel'], "Je reviendrai... :ghost: :ghost: :ghost:")
@@ -207,25 +214,30 @@ def command(dico, comm):
 
 
 def getUserID(name):
+    """Get the user's ID from the name""""
     for u in userList['members']:
         if(u['name'] == name):
             return u['id']
     return None
 
 def getUserName(id):
+    """Get the user's name from the ID""""
     for u in userList['members']:
         if(u['id'] == id):
             return u['name']
     return None
 
 def getChannel(userID):
+    """Get the private channel for speaking with the user""""
     chan = sc.api_call("im.open", user=userID)
     return chan['channel']['id']
 
 def sendMessage(chan, txt):
+    """Send a message in a Slack channel"""
     sc.api_call("chat.postMessage", as_user="true", channel=chan, text=txt)
 
 def addGame(player, adversaire, personnage):
+    """Create a new game"""
     if player in listPlayer or adversaire in listPlayer:
         return False
 
@@ -235,9 +247,11 @@ def addGame(player, adversaire, personnage):
     return True
 
 def addPlayer(player, adversaire, poseQuestion, personnage=None):
+    """Add a player in the list, this method is called by addGame()"""
     listPlayer[player] = {'adversaire':adversaire, 'poseQuestion':poseQuestion, 'personnage':personnage, 'nbTours':0, 'actif':poseQuestion}
 
 def increaseTurn(userID):
+    """Increase the number of turn in a game"""
     listPlayer[userID]['nbTours'] = 1 + listPlayer[userID]['nbTours']
 
 
