@@ -52,3 +52,16 @@ Toujours dans le repertoire crée, faire:
 * set SLACK_TOKEN = <valeur du tocken ici>
 * puis lancer la commande python Lib/site-packages/hearkinator/akinator_bot.py
 * Se connecter à slack et là on trouve le bot hearkinator.
+
+Lancer une partie!!
+=========================================
+
+Pour lancer une partie voici les instructions:
+
+* On indique le nom de l'adversaire et le nom du personnage auquel on pense comme ci-dessous
+   start nom_adverssaire rambo
+* Le bot affiche les différentes actions 
+* Pour répondre on écrit
+   réponse nom_personnage  (exemple reponse rambo)
+* Et laisser le bot vous dire si vous avez trouvé ou pas et en plus le nombre de tentative (nombre de questions)
+
