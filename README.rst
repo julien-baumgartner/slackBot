@@ -35,3 +35,10 @@ les packages dont il a besoin.
 
 Si tout ce passe bien on a un message du type "Successfully installed hearkinator-0.2".
 
+Où trouver hearkinator après installation
+==========================================
+
+Après l'installation du robot, suivre le chemin:
+   Lib/site-packages/hearkinator/akinator_bot.py
+   
+
