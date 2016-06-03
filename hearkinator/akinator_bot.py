@@ -3,6 +3,7 @@ import asyncio
 import json
 import signal
 import ast
+import os
 
 import aiohttp
 
@@ -10,7 +11,7 @@ import websockets
 from slackclient import SlackClient
 
 DEBUG = True
-TOKEN = "xoxb-"
+TOKEN = os.environ.get("SLACK_TOKEN")
 RUNNING = True
 
 sc = SlackClient(TOKEN)
